@@ -1,12 +1,133 @@
-# Android Setup - Enterprise Edition v5.1
+# 🚀 Misa Carlink Desktop Suite (CDS)
+### *Seamless Desktop Experience for Geely EX2 & Carlink Devices*
 
-Script PowerShell para configuração automática de dispositivos Android para uso com **Carlink**, **Android Auto** e centrais multimídia como o **Geely EX2**.
+[![Android](https://img.shields.io/badge/Platform-Android-green?style=for-the-badge&logo=android)](https://www.android.com/)
+[![PowerShell](https://img.shields.io/badge/Script-PowerShell-blue?style=for-the-badge&logo=powershell)](https://microsoft.com/powershell)
+[![Geely](https://img.shields.io/badge/Optimized%20for-Geely%20EX2-red?style=for-the-badge)](https://global.geely.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-> **Novidade V4.1**: Fix automático do prompt "Iniciar Agora?" do Carlink via `PROJECT_MEDIA`!
+> **[PT-BR]** Transforme seu celular Xiaomi ou Samsung em uma **Estação de Trabalho Automotiva** completa para a central multimídia do seu carro.
+>
+> **[EN]** Turn your Xiaomi or Samsung phone into a complete **Automotive Workstation** for your car's head unit.
 
-![Android](https://img.shields.io/badge/Android-5.0+-green)
-![PowerShell](https://img.shields.io/badge/PowerShell-5.1+-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+---
+
+## 📸 The Experience / A Experiência
+
+<!--
+    [USER] REPLACE THESE LINKS WITH YOUR ACTUAL PHOTOS/GIFS OF THE DASHBOARD
+    [USUÁRIO] SUBSTITUA ESTES LINKS POR SUAS FOTOS/GIFS REAIS DO PAINEL
+-->
+> *"It's not just screen mirroring. It's a full Desktop environment in your car."*
+>
+![Geely Desktop Setup](https://placehold.co/800x400/1a1a1a/FFF?text=Insert+Photo+of+Geely+Dashboard+Here)
+
+---
+
+## 🌟 Why CDS? / Por que o CDS?
+
+**[PT-BR]**
+Esqueça os scripts genéricos do XDA. O **Misa CDS** é uma solução **fim-a-fim** superior a 90% das alternativas porque não apenas "configura", mas:
+1.  **Audita** o dispositivo antes de mexer.
+2.  **Instala** as ferramentas necessárias automaticamente.
+3.  **Corrige** bugs específicos do Carlink/ZLink.
+4.  **Monitora** a saúde do seu aparelho para não fritar no console.
+
+**[EN]**
+Forget generic XDA scripts. **Misa CDS** is an **end-to-end** solution superior to 90% of alternatives because it doesn't just "tweak", it:
+1.  **Audits** the device before changes.
+2.  **Auto-Installs** necessary tools.
+3.  **Fixes** specific Carlink/ZLink bugs.
+4.  **Monitors** device health to prevent overheating in the console.
+
+---
+
+## 🔥 Key Features / Funcionalidades Principais
+
+### 🚗 The "Driver Profile" / O Perfil de Motorista
+**Optimized for Gig Workers (Uber, 99, Gigu)**
+*   **Multi-Window Dashboard:** Run Waze/Maps alongside your ride-hailing apps without switching screens.
+*   **Auto-Start:** Automatically launches required apps when you start the car.
+*   **Permissions:** Auto-grants GPS and overlay permissions for driver apps.
+
+### 🖥️ Desktop Mode / Modo Desktop
+*   **Taskbar Integration:** Brings a Windows-like start menu and taskbar to your car screen.
+*   **DPI Optimization:** Sets the perfect "Sweet Spot" (DPI 280) for Geely screens, turning UI elements into tablet mode.
+
+### 🩺 Real-Time Diagnostics (V5.1) / Diagnóstico em Tempo Real
+*   **Thermal Monitor:** Checks battery temperature and alerts (Beep!) if > 45°C.
+*   **Performance Stats:** Monitors CPU Load, Frequency (Throttling check), and RAM usage.
+*   **Power:** Shows Charging Current (mA) and Wattage (W).
+
+### 🛠️ Automation & Fixes / Automação e Correções
+*   **Clean Slate (Reset):** One-click rollback to factory settings (Option X).
+*   **Carlink Fix:** Removes the annoying "Start Now?" prompt using `PROJECT_MEDIA` permission.
+*   **App Auto-Install:** Downloads the latest stable versions of Shizuku, Taskbar, SecondScreen from official sources.
+
+---
+
+## ⚡ Quick Start / Como Usar
+
+### 1. Requirements / Requisitos
+*   Windows PC with PowerShell.
+*   Android Device (Developer Options & USB Debugging ON).
+*   USB Cable.
+
+### 2. Setup Guide / Guia de Instalação
+
+#### Step 1: Run the Script / Execute o Script
+Download the project and run `setup_android.ps1`:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\setup_android.ps1
+```
+
+#### Step 2: The "Ultimate Connection" Flow
+1.  **Option `A` (Auto-Install):** Downloads & installs Shizuku, Taskbar, SecondScreen, MacroDroid.
+2.  **Option `G` (Geely Optimize):** Sets DPI 280, enables Overlays, and sets Driver App permissions.
+3.  **Manual Setup (One-Time):**
+    *   Open **Shizuku** -> Start via Wireless Debugging.
+    *   Open **SecondScreen** -> Create Profile "Geely EX2" (720p / DPI 280).
+    *   Import `Geely_Auto_Connect.xml` into **MacroDroid**.
+
+#### Step 3: Connect & Drive / Conectar e Dirigir
+Plug your phone into your car. The automation takes over!
+
+---
+
+## 🧹 Clean Slate (Reset)
+
+Mess up? Want to sell the phone? Use **Option `X`** in the Advanced Menu to verify/restore factory rendering settings without losing your data.
+
+---
+
+## ⚠️ Disclaimer / Aviso Legal
+
+**[EN] Use at your own risk.**
+While this script includes safety checks and a "Clean Slate" reset function, changing system settings (DPI, Overscan) carries inherent risks. The author is not responsible for bootloops, data loss, or missed Uber rides.
+
+**[PT-BR] Uso por sua conta e risco.**
+Embora este script inclua verificações de segurança e uma função de reset ("Clean Slate"), alterar configurações de sistema (DPI, Overscan) carrega riscos. O autor não se responsabiliza por bootloops, perda de dados ou corridas perdidas no Uber.
+
+---
+
+## 🏆 Credits / Créditos
+
+This suite stands on the shoulders of giants. Please check out and support:
+*   [**Shizuku**](https://shizuku.rikka.app/) by Rikka
+*   [**Taskbar**](https://github.com/farmerbb/Taskbar) & [**SecondScreen**](https://github.com/farmerbb/SecondScreen) by farmerbb
+*   [**MacroDroid**](https://www.macrodroid.com/) by ArloSoft
+*   **The Geely & Carlink Community** for testing and feedback.
+
+---
+
+## 🤝 Contributing / Contribua!
+
+We want to make this the #1 suite for Carlink users worldwide!
+Queremos tornar isso a suíte #1 para usuários Carlink no mundo todo!
+
+*   **Ideas?** Open an [Issue](issues).
+*   **Code?** Send a [Pull Request](pulls).
+*   **Feedback?** Tell us how it works on your BYD, GWM, or other car models!
 
 ---
 
