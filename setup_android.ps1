@@ -5,8 +5,8 @@
 # ==============================================================================
 
 $ErrorActionPreference = "SilentlyContinue"
-$Host.UI.RawUI.WindowTitle = "Android Setup v5.1 - Clean Slate Edition"
-$ScriptVersion = "5.1"
+$Host.UI.RawUI.WindowTitle = "Android Setup v5.3 - AI Enhanced Edition"
+$ScriptVersion = "5.3"
 
 # ------------------------------------------------------------------------------
 # CONFIGURACOES GLOBAIS
@@ -298,38 +298,24 @@ function Reset-Overscan {
 
 function Fix-CarlinkPrompt {
     param([string]$AdbPath)
-    
     Write-Section "CORRECAO: PROMPT DE ESPELHAMENTO CARLINK"
-    Write-Host "   Elimina o aviso 'Iniciar Agora?' ao conectar no carro." -ForegroundColor Yellow
     
-    # 1. Lista de pacotes conhecidos (Expandida)
-    $knownPackages = @(
-        "com.zjinnova.zlink", "com.zjinnova.zlinka", "com.syu.carlink", 
-        "com.lincofun.carlinkPlay", "com.lincofun.lcarlink", "com.syc.carlink",
-        "com.autokit.autokit", "com.he.carlinkc", "com.carlinkit.carsdk"
-    )
+    # Lista de pacotes que NUNCA sao Carlink (Blacklist)
+    $blackList = "linkedin|steam|tplink|bridge|wallpaper|system|camera"
     
-    # 2. Busca Profunda: Procura qualquer app com "link" ou "zlink" no nome
     $allInstalled = & $AdbPath shell pm list packages 2>$null
     $foundPackages = @()
 
-    foreach ($pkg in $knownPackages) {
-        if ($allInstalled -match $pkg) { $foundPackages += $pkg }
+    # Busca apenas candidatos provaveis
+    $candidates = $allInstalled | Select-String -Pattern "link|zlink" | Where-Object { $_ -notmatch $blackList }
+
+    foreach ($line in $candidates) {
+        $cleanPkg = $line.ToString().Replace("package:", "").Trim()
+        $foundPackages += $cleanPkg
     }
 
-    # Se nao achou na lista, tenta achar por palavra-chave
-    if ($foundPackages.Count -eq 0) {
-        $deepSearch = $allInstalled | Select-String -Pattern "link|zlink|carplay"
-        foreach ($line in $deepSearch) {
-            $cleanPkg = $line.ToString().Replace("package:", "").Trim()
-            $foundPackages += $cleanPkg
-        }
-    }
-    
     if ($foundPackages.Count -gt 0) {
-        # Remove duplicatas
         $foundPackages = $foundPackages | Select-Object -Unique
-        
         foreach ($pkg in $foundPackages) {
             Write-Host "   -> Aplicando fix no pacote identificado: $pkg" -NoNewline
             & $AdbPath shell appops set $pkg PROJECT_MEDIA allow 2>$null
@@ -337,17 +323,9 @@ function Fix-CarlinkPrompt {
             Add-BatteryWhitelist -AdbPath $AdbPath -Package $pkg
             Write-Host " [OK]" -ForegroundColor Green
         }
-        Write-Status "Fix aplicado com sucesso para o Carlink!" "Success"
     }
     else {
-        Write-Status "Pacote nao encontrado automaticamente." "Warning"
-        Write-Host "   Por favor, abra o PowerShell e digite:" -ForegroundColor DarkGray
-        Write-Host "   adb shell pm list packages | findstr link" -ForegroundColor Cyan
-        $manualPkg = Read-Host "`n   Digite o nome do pacote encontrado (ou Enter para pular)"
-        if ($manualPkg) {
-            & $AdbPath shell appops set $manualPkg PROJECT_MEDIA allow 2>$null
-            Write-Status "Fix aplicado manualmente em $manualPkg" "Success"
-        }
+        Write-Status "Nenhum pacote Carlink detectado automaticamente." "Warning"
     }
 }
 
@@ -397,42 +375,28 @@ function Reset-Carlink {
 
 function Optimize-Xiaomi {
     param([string]$AdbPath)
-    
     Write-Section "OTIMIZACOES XIAOMI/POCO/REDMI (HyperOS/MIUI)"
     
-    # Remover MSA (Anuncios)
-    Write-Host "   -> Removendo telemetria e anuncios (MSA)..." -NoNewline
-    & $AdbPath shell pm uninstall -k --user 0 com.miui.msa.global 2>$null
-    & $AdbPath shell pm uninstall -k --user 0 com.miui.analytics 2>$null
-    & $AdbPath shell pm uninstall -k --user 0 com.xiaomi.joyose 2>$null
-    Write-Host " [OK]" -ForegroundColor Green
+    $appsToRemove = @("com.miui.msa.global", "com.miui.analytics", "com.xiaomi.joyose", "com.xiaomi.daemon")
     
-    # Desativar Daemon
-    Write-Host "   -> Desativando daemon de coleta..." -NoNewline
-    & $AdbPath shell pm uninstall -k --user 0 com.xiaomi.daemon 2>$null
-    Write-Host " [OK]" -ForegroundColor Green
-    
-    # Otimizar animacoes
-    Write-Host "   -> Otimizando velocidade de animacoes (0.5x)..." -NoNewline
+    Write-Host "   -> Removendo telemetria e anuncios..." -NoNewline
+    foreach ($app in $appsToRemove) {
+        # Tenta desinstalar e joga qualquer erro para o "lixo" ($null)
+        & $AdbPath shell pm uninstall -k --user 0 $app > $null 2>&1
+    }
+    Write-Host " [OK ou JA REMOVIDO]" -ForegroundColor Green
+
+    # Restante das otimizacoes (Animacoes e Refresh Rate)
     & $AdbPath shell settings put global window_animation_scale 0.5 2>$null
     & $AdbPath shell settings put global transition_animation_scale 0.5 2>$null
     & $AdbPath shell settings put global animator_duration_scale 0.5 2>$null
-    Write-Host " [OK]" -ForegroundColor Green
     
-    # Parar logd e limpar buffer
-    Write-Host "   -> Parando servico de logs e limpando buffer..." -NoNewline
-    & $AdbPath shell logcat -c 2>$null
-    & $AdbPath shell stop logd 2>$null
-    Write-Host " [OK]" -ForegroundColor Green
-    
-    # Refresh Rate
-    Write-Host "   -> Forcando taxa de atualizacao 120Hz..." -NoNewline
+    # Refresh Rate (120Hz)
     & $AdbPath shell settings put system peak_refresh_rate 120.0 2>$null
     & $AdbPath shell settings put system min_refresh_rate 120.0 2>$null
     & $AdbPath shell settings put system user_refresh_rate 120 2>$null
-    Write-Host " [OK]" -ForegroundColor Green
     
-    # NOTA V4.1: MIUI Optimization movido para menu avancado (pode causar bugs)
+    Write-Host "   -> Otimizacoes de interface aplicadas (120Hz + 0.5x)." -ForegroundColor Green
 }
 
 function Toggle-MiuiOptimization {
