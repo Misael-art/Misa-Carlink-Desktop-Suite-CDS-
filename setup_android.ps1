@@ -1519,6 +1519,11 @@ if ($shizukuApp) {
     Start-Shizuku -AdbPath $adb
 }
 
+# Copiar o arquivo de Macro para a memória interna do celular
+Write-Host "`n   -> Enviando backup de macros (Geely_Auto_Connect.xml)..." -NoNewline
+& $adb push "$PSScriptRoot\Geely_Auto_Connect.xml" /sdcard/Download/ 2>$null
+Write-Host " [OK]" -ForegroundColor Green
+
 # ETAPA 7: Otimizacoes por Marca
 Write-Host "`n[ETAPA 7/7] Aplicando otimizacoes especificas..." -ForegroundColor White
 $brand = $deviceInfo.Brand
