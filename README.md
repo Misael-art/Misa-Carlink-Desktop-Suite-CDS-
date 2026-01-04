@@ -76,7 +76,13 @@ Forget generic XDA scripts. **Misa CDS** is an **end-to-end** solution superior 
 ### 2. Setup Guide / Guia de Instalação
 
 #### Step 1: Run the Script / Execute o Script
-Download the project and run `setup_android.ps1`:
+
+**Option A: The Easy Way (Recommended)**
+Double-click the **`Start-Misa-CDS.bat`** file.
+*(Clique duas vezes no arquivo `Start-Misa-CDS.bat`)*
+
+**Option B: Manual Terminal**
+Open PowerShell and run:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\setup_android.ps1
 ```
