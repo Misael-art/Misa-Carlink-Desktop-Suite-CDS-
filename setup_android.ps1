@@ -301,80 +301,53 @@ function Fix-CarlinkPrompt {
     
     Write-Section "CORRECAO: PROMPT DE ESPELHAMENTO CARLINK"
     Write-Host "   Elimina o aviso 'Iniciar Agora?' ao conectar no carro." -ForegroundColor Yellow
-    Write-Host "   Aplica permissao PROJECT_MEDIA para captura automatica." -ForegroundColor DarkGray
     
-    # Lista de possiveis pacotes do Carlink/ZLink
-    $carlinkPackages = @(
-        "com.zjinnova.zlink",
-        "com.zjinnova.zlinka",
-        "com.zjinnova.zlink.wifiadb",
-        "com.syu.carlink",
-        "com.lincofun.carlinkPlay",
-        "com.lincofun.lcarlink",
-        "com.syc.carlink",
-        "com.autokit.autokit",
-        "com.he.carlinkc",
-        "com.carlinkit.carsdk"
+    # 1. Lista de pacotes conhecidos (Expandida)
+    $knownPackages = @(
+        "com.zjinnova.zlink", "com.zjinnova.zlinka", "com.syu.carlink", 
+        "com.lincofun.carlinkPlay", "com.lincofun.lcarlink", "com.syc.carlink",
+        "com.autokit.autokit", "com.he.carlinkc", "com.carlinkit.carsdk"
     )
     
-    $found = $false
-    $installedPackages = & $AdbPath shell pm list packages 2>$null
-    
-    foreach ($pkg in $carlinkPackages) {
-        if ($installedPackages -match $pkg) {
-            Write-Host "   -> Aplicando fix no pacote: $pkg" -NoNewline
-            
-            # Permissao de Captura de Media (O segredo!)
-            & $AdbPath shell appops set $pkg PROJECT_MEDIA allow 2>$null
-            
-            # Permissoes acessorias para evitar que o sistema mate o app
-            & $AdbPath shell appops set $pkg SYSTEM_ALERT_WINDOW allow 2>$null
-            & $AdbPath shell appops set $pkg WRITE_SETTINGS allow 2>$null
-            
-            # Whitelist de bateria
-            Add-BatteryWhitelist -AdbPath $AdbPath -Package $pkg
-            
-            Write-Host " [OK]" -ForegroundColor Green
-            Write-Log "Carlink fix applied to $pkg"
-            $found = $true
+    # 2. Busca Profunda: Procura qualquer app com "link" ou "zlink" no nome
+    $allInstalled = & $AdbPath shell pm list packages 2>$null
+    $foundPackages = @()
+
+    foreach ($pkg in $knownPackages) {
+        if ($allInstalled -match $pkg) { $foundPackages += $pkg }
+    }
+
+    # Se nao achou na lista, tenta achar por palavra-chave
+    if ($foundPackages.Count -eq 0) {
+        $deepSearch = $allInstalled | Select-String -Pattern "link|zlink|carplay"
+        foreach ($line in $deepSearch) {
+            $cleanPkg = $line.ToString().Replace("package:", "").Trim()
+            $foundPackages += $cleanPkg
         }
     }
     
-    if (-not $found) {
-        Write-Status "Pacote Carlink nao identificado automaticamente." "Warning"
+    if ($foundPackages.Count -gt 0) {
+        # Remove duplicatas
+        $foundPackages = $foundPackages | Select-Object -Unique
         
-        # Auto-Discovery Logic
-        Write-Host "   Tentando descobrir candidatos..." -ForegroundColor DarkGray
-        $candidates = $installedPackages -split "`r`n" | Where-Object { $_ -match "link|car|auto" } | ForEach-Object { $_ -replace "package:", "" }
-        
-        $targetPkg = ""
-        
-        if ($candidates) {
-            Write-Host "   Candidatos encontrados:"
-            for ($i = 0; $i -lt $candidates.Count; $i++) {
-                Write-Host "     $($i+1). $($candidates[$i])"
-            }
-            Write-Host "     0. Digitar manualmente"
-            
-            $sel = Read-Host "   Selecione o numero do seu app Carlink"
-            if ($sel -match "^\d+$" -and $sel -gt 0 -and $sel -le $candidates.Count) {
-                $targetPkg = $candidates[[int]$sel - 1]
-            }
+        foreach ($pkg in $foundPackages) {
+            Write-Host "   -> Aplicando fix no pacote identificado: $pkg" -NoNewline
+            & $AdbPath shell appops set $pkg PROJECT_MEDIA allow 2>$null
+            & $AdbPath shell appops set $pkg SYSTEM_ALERT_WINDOW allow 2>$null
+            Add-BatteryWhitelist -AdbPath $AdbPath -Package $pkg
+            Write-Host " [OK]" -ForegroundColor Green
         }
-        
-        if ([string]::IsNullOrWhiteSpace($targetPkg)) {
-            $targetPkg = Read-Host "   Digite o nome do pacote (ou Enter para pular)"
-        }
-
-        if (-not [string]::IsNullOrWhiteSpace($targetPkg)) {
-            & $AdbPath shell appops set $targetPkg PROJECT_MEDIA allow 2>$null
-            & $AdbPath shell appops set $targetPkg SYSTEM_ALERT_WINDOW allow 2>$null
-            Add-BatteryWhitelist -AdbPath $AdbPath -Package $targetPkg
-            Write-Status "Permissoes aplicadas para: $targetPkg" "Success"
-        }
+        Write-Status "Fix aplicado com sucesso para o Carlink!" "Success"
     }
     else {
-        Write-Status "Carlink configurado! O prompt 'Iniciar Agora' nao deve mais aparecer." "Success"
+        Write-Status "Pacote nao encontrado automaticamente." "Warning"
+        Write-Host "   Por favor, abra o PowerShell e digite:" -ForegroundColor DarkGray
+        Write-Host "   adb shell pm list packages | findstr link" -ForegroundColor Cyan
+        $manualPkg = Read-Host "`n   Digite o nome do pacote encontrado (ou Enter para pular)"
+        if ($manualPkg) {
+            & $AdbPath shell appops set $manualPkg PROJECT_MEDIA allow 2>$null
+            Write-Status "Fix aplicado manualmente em $manualPkg" "Success"
+        }
     }
 }
 
