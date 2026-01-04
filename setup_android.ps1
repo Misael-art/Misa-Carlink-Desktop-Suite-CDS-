@@ -1175,15 +1175,15 @@ function Download-EssentialApps {
     param([string]$AdbPath)
     Write-Section "DOWNLOAD E INSTALACAO DE APPS (ULTIMATE EDITION)"
     
-    # Links diretos oficiais (GitHub redireciona sempre para a 'latest' estável)
+    # Links dinamicos ("latest release") para garantir a versao mais recente
     $apps = @(
         @{ 
             Name = "Shizuku"; 
-            Url  = "https://github.com/RikkaApps/Shizuku/releases/download/v13.5.4/shizuku-v13.5.4-release.apk" 
+            Url  = "https://github.com/RikkaApps/Shizuku/releases/latest/download/shizuku-release.apk" 
         },
         @{ 
             Name = "Taskbar"; 
-            Url  = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" 
+            Url  = "https://github.com/farmerbb/Taskbar/releases/latest/download/Taskbar-release.apk" 
         },
         @{ 
             Name = "SecondScreen"; 
