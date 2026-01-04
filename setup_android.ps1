@@ -1176,24 +1176,14 @@ function Download-EssentialApps {
     param([string]$AdbPath)
     Write-Section "DOWNLOAD E INSTALACAO DE APPS (ULTIMATE 2026)"
     
-    # Links atualizados para máxima compatibilidade com Android 15 / HyperOS
+    # Forçar TLS 1.2 e 1.3 para evitar erros de conexão
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
+
     $apps = @(
-        @{ 
-            Name = "Shizuku"; 
-            Url  = "https://github.com/RikkaApps/Shizuku/releases/download/v13.6.0/shizuku-v13.6.0.r1086.2650830c-release.apk" 
-        },
-        @{ 
-            Name = "Taskbar"; 
-            Url  = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" 
-        },
-        @{ 
-            Name = "SecondScreen"; 
-            Url  = "https://github.com/farmerbb/SecondScreen/releases/download/v2.9.4/SecondScreen-2.9.4.apk" 
-        },
-        @{ 
-            Name = "MacroDroid"; 
-            Url  = "https://f-droid.org/repo/com.arlosoft.macrodroid_56004.apk" 
-        }
+        @{ Name = "Shizuku"; Url = "https://github.com/RikkaApps/Shizuku/releases/download/v13.6.0/shizuku-v13.6.0.r1086.2650830c-release.apk" },
+        @{ Name = "Taskbar"; Url = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" },
+        @{ Name = "SecondScreen"; Url = "https://github.com/farmerbb/SecondScreen/releases/download/v2.9.4/SecondScreen-2.9.4.apk" },
+        @{ Name = "MacroDroid"; Url = "https://f-droid.org/repo/com.arlosoft.macrodroid_56004.apk" }
     )
 
     if (-not (Test-Path $ApkFolder)) { New-Item -ItemType Directory -Path $ApkFolder | Out-Null }
@@ -1203,22 +1193,25 @@ function Download-EssentialApps {
         Write-Status "Verificando $($app.Name)..." "Info"
         
         if (-not (Test-Path $dest)) {
-            Write-Host "   -> Baixando versão estável 2026..." -NoNewline
+            Write-Host "   -> Tentando download seguro..." -NoNewline
             try {
-                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                Invoke-WebRequest -Uri $app.Url -OutFile $dest -UserAgent "Mozilla/5.0" -UseBasicParsing
+                # Download com UserAgent de navegador para evitar bloqueio do GitHub
+                $webClient = New-Object System.Net.WebClient
+                $webClient.Headers.Add("User-Agent", "Mozilla/5.0")
+                $webClient.DownloadFile($app.Url, $dest)
                 Write-Host " [OK]" -ForegroundColor Green
             }
             catch {
-                Write-Host " [ERRO NO DOWNLOAD]" -ForegroundColor Red
+                Write-Host " [FALHA: $_]" -ForegroundColor Red
                 continue
             }
         }
         
         Write-Host "   -> Instalando no Poco X6 Pro..." -NoNewline
+        # -g concede todas as permissões no Android 15
         $installResult = & $AdbPath install -r -g "$dest" 2>&1
         if ($installResult -match "Success") { Write-Host " [INSTALADO]" -ForegroundColor Green }
-        else { Write-Host " [JÁ ATUALIZADO OU ERRO]" -ForegroundColor DarkGray }
+        else { Write-Host " [JA ATUALIZADO OU REQUER UNINSTALL MANUAL]" -ForegroundColor DarkGray }
     }
 }
 

@@ -10,7 +10,7 @@
         <!-- 1. Feedback Visual e Configuração de Ambiente -->
         <action type="quick_settings_tile_state" tile_number="1" state="toggle_on" />
         <action type="brightness" value="100%" />
-        <action type="volume_music" value="80%" />
+        <action type="volume_music" value="90%" />
         <action type="dnd" mode="priority" /> <!-- Não Perturbe Ativado -->
 
         <!-- 2. Garantir Shizuku (Motor) -->
@@ -40,7 +40,8 @@
         
         <!-- 1. Resetar Tile e Ambiente -->
         <action type="quick_settings_tile_state" tile_number="1" state="toggle_off" />
-        <action type="brightness" value="40%" />
+        <action type="brightness" value="-1" /> <!-- -1 = Brilho Automático -->
+        <action type="volume_music" value="50%" />
         <action type="dnd" mode="all" /> <!-- Não Perturbe Desativado -->
         
         <!-- 2. Matar Apps de Trabalho (Limpeza Agressiva) -->
