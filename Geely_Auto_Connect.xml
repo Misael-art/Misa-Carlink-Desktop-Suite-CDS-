@@ -44,18 +44,20 @@
         <action type="volume_music" value="50%" />
         <action type="dnd" mode="all" /> <!-- Não Perturbe Desativado -->
         
-        <!-- 2. Matar Apps de Trabalho (Limpeza Agressiva) -->
-        <action type="force_stop" package="com.farmerbb.taskbar" />
-        <action type="force_stop" package="com.ubercab.driver" />
-        <action type="force_stop" package="com.taxis99" />
-        <action type="force_stop" package="com.waze" />
+        <!-- 2. Kill Switch (Limpeza Agressiva via Shell/Shizuku) -->
+        <action type="shell_command" command="am force-stop com.farmerbb.taskbar
+am force-stop com.ubercab.driver
+am force-stop com.taxis99
+am force-stop com.waze
+am force-stop com.google.android.apps.maps
+am force-stop com.spotify.music" use_shizuku="true" />
         
         <!-- 3. Desligar SecondScreen e Resetar Gráficos -->
         <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
         
         <!-- Reset do Android 15 (Mais seguro) -->
-        <action type="shell_command" command="wm density reset" use_shizuku="true" />
-        <action type="shell_command" command="settings put global policy_control null" use_shizuku="true" />
+        <action type="shell_command" command="wm density reset
+settings put global policy_control null" use_shizuku="true" />
         
         <action type="display_notification" title="Modo Descanso" text="Tudo limpo e apps fechados." />
     </macro>

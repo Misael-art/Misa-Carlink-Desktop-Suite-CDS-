@@ -229,6 +229,19 @@ O script inclui um arquivo XML pré-configurado (`Geely_Auto_Connect.xml`) com d
 
 ---
 
+## 🖥️ Configuração do Perfil SecondScreen (Essencial para Full Screen)
+
+Para eliminar as bordas pretas e ativar o modo tablet, crie um perfil no app **SecondScreen** com o nome **"Geely EX2"**:
+
+1.  **Resolution (Resolução)**: `1920 x 1080` (Full HD) ou `1280 x 720` (HD).
+2.  **Density (DPI)**: `280` (Ativa o modo tablet/colunas duplas).
+3.  **Orientation**: `Force Landscape` (Forçar Paisagem).
+4.  **Expert Mode**: Ative `Immersive Mode` e `Freeform Windows`.
+
+> **Nota:** No Android 15 (HyperOS), certifique-se de que o **Shizuku** está rodando antes de ativar o perfil.
+
+---
+
 ## 🧹 Clean Slate (Reset)
 
 Mess up? Want to sell the phone? Use **Option `X`** in the Advanced Menu to verify/restore factory rendering settings without losing your data.
