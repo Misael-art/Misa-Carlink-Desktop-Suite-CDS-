@@ -1,47 +1,61 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <macrodroid>
-    <macro name="Geely Start (Connect + Tile ON)">
+    <macro name="Geely Start (Driver Mode)">
         <!-- Triggers: Bluetooth Conectado OU Tile clicado para Ligar -->
+        <!-- Nota: Configure o Bluetooth para seu dispositivo 'Geely EX2' -->
         <trigger type="bluetooth_state" state="connected" device="Geely EX2" />
         <trigger type="quick_settings_tile" tile_number="1" state="toggle_on" />
         <condition type="power_connected" state="any" />
         
-        <!-- Ação 0: Sincronizar estado do Tile para 'Ativo' (Branco) -->
+        <!-- 1. Feedback Visual e Configuração de Ambiente -->
         <action type="quick_settings_tile_state" tile_number="1" state="toggle_on" />
+        <action type="brightness" value="100%" />
+        <action type="volume_music" value="80%" />
+        <action type="dnd" mode="priority" /> <!-- Não Perturbe Ativado -->
 
-        <!-- Garantir que Shizuku esteja rodando -->
+        <!-- 2. Garantir Shizuku (Motor) -->
         <action type="shell_command" command="sh /sdcard/Android/data/moe.shizuku.privileged.api/files/start.sh" use_shizuku="true" />
         <action type="wait" seconds="2" />
         
-        <!-- Ativar perfil do SecondScreen -->
+        <!-- 3. Iniciar Interface (Taskbar primeiro para garantir overlay) -->
+        <action type="launch_app" package="com.farmerbb.taskbar" />
+        <action type="wait" seconds="1" />
+        
+        <!-- 4. Ativar SecondScreen (Resolução) -->
         <action type="send_intent" action="com.farmerbb.secondscreen.LOAD_PROFILE" package="com.farmerbb.secondscreen.free">
             <extra name="profile_name" value="Geely EX2" />
         </action>
+        <action type="wait" seconds="1" />
+
+        <!-- 5. Lançar App de Trabalho (Ex: Uber/99/Waze) -->
+        <action type="launch_app" package="com.ubercab.driver" />
         
-        <!-- Iniciar Taskbar -->
-        <action type="launch_app" package="com.farmerbb.taskbar" />
-        
-        <action type="display_notification" title="Geely Desktop" text="Ambiente Carlink Ativado (BT/Tile)!" />
+        <action type="display_notification" title="Geely Driver Mode" text="Turno iniciado! Bom trabalho." />
     </macro>
     
-    <macro name="Geely Stop (Disconnect/Reset + Tile OFF)">
+    <macro name="Geely Stop (Cleanup & Rest)">
         <!-- Triggers: Bluetooth Desconectado OU Tile clicado para Desligar -->
         <trigger type="bluetooth_state" state="disconnected" device="Geely EX2" />
         <trigger type="quick_settings_tile" tile_number="1" state="toggle_off" />
         
-        <!-- Ação 0: Sincronizar estado do Tile para 'Inativo' (Cinza) -->
+        <!-- 1. Resetar Tile e Ambiente -->
         <action type="quick_settings_tile_state" tile_number="1" state="toggle_off" />
+        <action type="brightness" value="40%" />
+        <action type="dnd" mode="all" /> <!-- Não Perturbe Desativado -->
         
-        <!-- Desativar SecondScreen -->
+        <!-- 2. Matar Apps de Trabalho (Limpeza Agressiva) -->
+        <action type="force_stop" package="com.farmerbb.taskbar" />
+        <action type="force_stop" package="com.ubercab.driver" />
+        <action type="force_stop" package="com.taxis99" />
+        <action type="force_stop" package="com.waze" />
+        
+        <!-- 3. Desligar SecondScreen e Resetar Gráficos -->
         <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
         
-        <!-- Resetar densidade (DPI) -->
+        <!-- Reset do Android 15 (Mais seguro) -->
         <action type="shell_command" command="wm density reset" use_shizuku="true" />
         <action type="shell_command" command="settings put global policy_control null" use_shizuku="true" />
         
-        <!-- Fechar Taskbar -->
-        <action type="force_stop" package="com.farmerbb.taskbar" />
-        
-        <action type="display_notification" title="Modo Normal" text="Restaurado para padrão de fábrica." />
+        <action type="display_notification" title="Modo Descanso" text="Tudo limpo e apps fechados." />
     </macro>
 </macrodroid>

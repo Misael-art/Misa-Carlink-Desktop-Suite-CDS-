@@ -209,6 +209,26 @@ Plug your phone into your car. The automation takes over!
 
 ---
 
+## 🤖 Automação Avançada (MacroDroid Profiles)
+
+O script inclui um arquivo XML pré-configurado (`Geely_Auto_Connect.xml`) com dois perfis de uso inteligentes. Importe-o no MacroDroid para ativar:
+
+### 1. Geely Start (Driver Mode)
+**Gatilho:** Conectou no Bluetooth do Carro + Cabo USB.
+*   🚦 **Ambiente:** Brilho 100%, Volume 80%, Não Perturbe ON.
+*   🚀 **Launch Pad:** Inicia Shizuku -> Taskbar -> SecondScreen automaticamente.
+*   💼 **Trabalho:** Abre seu app principal (Uber/99) pronto para rodar.
+
+### 2. Geely Stop (Cleanup & Rest)
+**Gatilho:** Desconectou do Bluetooth.
+*   🧹 **Limpeza:** Força o fechamento do Taskbar, SecondScreen e Apps de Motorista.
+*   🛡️ **Segurança:** Reseta o DPI e Overscan para o padrão de fábrica.
+*   🌙 **Descanso:** Brilho 40%, Não Perturbe OFF.
+
+> **Dica:** Personalize os apps de "Trabalho" na macro "Geely Start" dentro do MacroDroid.
+
+---
+
 ## 🧹 Clean Slate (Reset)
 
 Mess up? Want to sell the phone? Use **Option `X`** in the Advanced Menu to verify/restore factory rendering settings without losing your data.
