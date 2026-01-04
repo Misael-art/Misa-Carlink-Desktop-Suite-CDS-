@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<macrodroid>
+    <macro name="Geely Auto-Connect v5.0">
+        <trigger type="bluetooth_state" state="connected" device="Geely EX2" />
+        <condition type="power_connected" state="any" />
+        
+        <!-- Garantir que Shizuku esteja rodando -->
+        <action type="shell_command" command="sh /sdcard/Android/data/moe.shizuku.privileged.api/files/start.sh" use_shizuku="true" />
+        <action type="wait" seconds="2" />
+        
+        <!-- Ativar perfil do SecondScreen -->
+        <action type="send_intent" action="com.farmerbb.secondscreen.LOAD_PROFILE" package="com.farmerbb.secondscreen.free">
+            <extra name="profile_name" value="Geely EX2" />
+        </action>
+        
+        <!-- Iniciar Taskbar -->
+        <action type="launch_app" package="com.farmerbb.taskbar" />
+        
+        <action type="display_notification" title="Geely Desktop" text="Ambiente Carlink Ativado com Sucesso!" />
+    </macro>
+    
+    <macro name="Geely Disconnect (Cleanup)">
+        <trigger type="bluetooth_state" state="disconnected" device="Geely EX2" />
+        
+        <!-- Desativar SecondScreen -->
+        <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
+        
+        <!-- Resetar densidade (DPI) -->
+        <action type="shell_command" command="wm density reset" use_shizuku="true" />
+        
+        <!-- Fechar Taskbar -->
+        <action type="force_stop" package="com.farmerbb.taskbar" />
+    </macro>
+</macrodroid>

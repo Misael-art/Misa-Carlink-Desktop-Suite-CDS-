@@ -1,0 +1,4 @@
+﻿2026-01-04 06:20:34 - === Script started v5.0 ===
+2026-01-04 06:20:34 - [Success] ADB: C:\Users\misae\AppData\Local\Temp\platform-tools\adb.exe
+2026-01-04 06:20:35 - [Info] Aguardando dispositivo Android...
+2026-01-04 06:21:38 - [Error] Timeout: Nenhum dispositivo detectado.
