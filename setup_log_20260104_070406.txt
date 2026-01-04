@@ -27,3 +27,5 @@
 2026-01-04 07:05:18 - === OTIMIZACAO FINAL: GEELY EX2 + CARLINK ===
 2026-01-04 07:05:19 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).
 2026-01-04 07:05:19 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).
+2026-01-04 07:24:19 - === OPERACAO CLEAN SLATE: RESTAURANDO PADROES ===
+2026-01-04 07:24:19 - [Info] Iniciando limpeza profunda...

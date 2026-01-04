@@ -1,0 +1,20 @@
+﻿2026-01-04 07:28:40 - === Script started v5.1 ===
+2026-01-04 07:28:40 - [Success] ADB: C:\Users\misae\AppData\Local\Temp\platform-tools\adb.exe
+2026-01-04 07:28:40 - [Info] Aguardando dispositivo Android...
+2026-01-04 07:28:40 - [Success] Dispositivo conectado e autorizado: T8IJQ8CEIN5X7LDY
+2026-01-04 07:28:40 - Device ID: T8IJQ8CEIN5X7LDY
+2026-01-04 07:28:42 - Device Info: Brand=poco, Model=2311DRK48G, Android=15, SDK=35
+2026-01-04 07:28:42 - [Success] Marca: POCO
+2026-01-04 07:28:42 - [Success] Modelo: 2311DRK48G
+2026-01-04 07:28:42 - [Success] Android: 15 (SDK 35)
+2026-01-04 07:28:54 - [Success] Taskbar: com.farmerbb.taskbar
+2026-01-04 07:28:54 - [Success] SecondScreen: com.farmerbb.secondscreen.free
+2026-01-04 07:28:55 - [Success] Modo Freeform ativado
+2026-01-04 07:28:56 - === CORRECAO: PROMPT DE ESPELHAMENTO CARLINK ===
+2026-01-04 07:28:56 - [Warning] Pacote Carlink nao identificado automaticamente.
+2026-01-04 07:29:03 - === OTIMIZACOES XIAOMI/POCO/REDMI (HyperOS/MIUI) ===
+2026-01-04 07:29:05 - Night mode set to 2
+2026-01-04 07:29:05 - === Configuration completed ===
+2026-01-04 07:29:11 - === OPERACAO CLEAN SLATE: RESTAURANDO PADROES ===
+2026-01-04 07:29:11 - [Info] Iniciando limpeza profunda...
+2026-01-04 07:30:03 - [Success] LIMPEZA CONCLUIDA COM SUCESSO!
