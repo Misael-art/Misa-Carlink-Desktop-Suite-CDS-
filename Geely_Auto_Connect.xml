@@ -31,4 +31,18 @@
         <!-- Fechar Taskbar -->
         <action type="force_stop" package="com.farmerbb.taskbar" />
     </macro>
+
+    <macro name="MANUAL RESET (Normal Mode)">
+        <!-- Trigger: Botão na barra de notificações ou Widget -->
+        <trigger type="quick_settings_tile" tile_number="1" state="toggle_off" />
+        <trigger type="widget_pressed" />
+        
+        <!-- Ações de Limpeza (Mesmas do Disconnect) -->
+        <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
+        <action type="shell_command" command="wm density reset" use_shizuku="true" />
+        <action type="shell_command" command="settings put global policy_control null" use_shizuku="true" />
+        <action type="force_stop" package="com.farmerbb.taskbar" />
+        
+        <action type="display_notification" title="Modo Normal" text="Configurações originais restauradas." />
+    </macro>
 </macrodroid>
