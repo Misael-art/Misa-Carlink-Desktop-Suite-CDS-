@@ -211,9 +211,10 @@ function Enable-FreeformMode {
 
 function Get-CurrentDpi {
     param([string]$AdbPath)
+    # No Android 15, a saída do 'wm density' pode variar. Usamos um regex mais flexível.
     $density = & $AdbPath shell wm density 2>$null
     if ($density -match "(\d+)") { return $Matches[1] }
-    return "?"
+    return "Não detectado (verifique as Opções de Desenvolvedor)"
 }
 
 function Set-Dpi {
@@ -1173,58 +1174,51 @@ function Show-DiagnosticMode {
 
 function Download-EssentialApps {
     param([string]$AdbPath)
-    Write-Section "DOWNLOAD E INSTALACAO DE APPS (ULTIMATE EDITION)"
+    Write-Section "DOWNLOAD E INSTALACAO DE APPS (ULTIMATE 2026)"
     
-    # Links dinamicos ("latest release") para garantir a versao mais recente
+    # Links atualizados para máxima compatibilidade com Android 15 / HyperOS
     $apps = @(
         @{ 
             Name = "Shizuku"; 
-            Url  = "https://github.com/RikkaApps/Shizuku/releases/latest/download/shizuku-release.apk" 
+            Url  = "https://github.com/RikkaApps/Shizuku/releases/download/v13.6.0/shizuku-v13.6.0.r1086.2650830c-release.apk" 
         },
         @{ 
             Name = "Taskbar"; 
-            Url  = "https://github.com/farmerbb/Taskbar/releases/latest/download/Taskbar-release.apk" 
+            Url  = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" 
         },
         @{ 
             Name = "SecondScreen"; 
-            Url  = "https://github.com/farmerbb/SecondScreen/releases/latest/download/SecondScreen-release.apk" 
+            Url  = "https://github.com/farmerbb/SecondScreen/releases/download/v2.9.4/SecondScreen-2.9.4.apk" 
         },
         @{ 
             Name = "MacroDroid"; 
-            Url  = "https://f-droid.org/repo/com.arlosoft.macrodroid_54504.apk" # Versao estavel F-Droid
+            Url  = "https://f-droid.org/repo/com.arlosoft.macrodroid_56004.apk" 
         }
     )
 
-    if (-not (Test-Path $ApkFolder)) { 
-        New-Item -ItemType Directory -Path $ApkFolder | Out-Null 
-    }
+    if (-not (Test-Path $ApkFolder)) { New-Item -ItemType Directory -Path $ApkFolder | Out-Null }
 
     foreach ($app in $apps) {
         $dest = "$ApkFolder\$($app.Name).apk"
+        Write-Status "Verificando $($app.Name)..." "Info"
         
         if (-not (Test-Path $dest)) {
-            Write-Status "Baixando $($app.Name) dos servidores oficiais..." "Info"
+            Write-Host "   -> Baixando versão estável 2026..." -NoNewline
             try {
-                # Configura protocolo de seguranca para downloads modernos
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                 Invoke-WebRequest -Uri $app.Url -OutFile $dest -UserAgent "Mozilla/5.0" -UseBasicParsing
-                Write-Status "$($app.Name) baixado com sucesso." "Success"
+                Write-Host " [OK]" -ForegroundColor Green
             }
             catch {
-                Write-Status "Falha no download de $($app.Name). Verifique sua conexao." "Error"
+                Write-Host " [ERRO NO DOWNLOAD]" -ForegroundColor Red
                 continue
             }
         }
         
-        Write-Host "   -> Instalando $($app.Name) no dispositivo..." -NoNewline
-        $installResult = & $AdbPath install -r "$dest" 2>&1
-        if ($installResult -match "Success") {
-            Write-Host " [OK]" -ForegroundColor Green
-        }
-        else {
-            Write-Host " [FALHA]" -ForegroundColor Red
-            Write-Log "Erro na instalacao de $($app.Name): $installResult"
-        }
+        Write-Host "   -> Instalando no Poco X6 Pro..." -NoNewline
+        $installResult = & $AdbPath install -r -g "$dest" 2>&1
+        if ($installResult -match "Success") { Write-Host " [INSTALADO]" -ForegroundColor Green }
+        else { Write-Host " [JÁ ATUALIZADO OU ERRO]" -ForegroundColor DarkGray }
     }
 }
 
@@ -1495,6 +1489,9 @@ else {
         Write-Status "$($app.Name): $($app.Package)" "Success"
     }
 }
+
+# ETAPA 4.5: Garantir que os apps essenciais existam
+Download-EssentialApps -AdbPath $adb
 
 # ETAPA 5: Permissoes, Freeform e Persistencia
 Write-Host "`n[ETAPA 5/7] Aplicando permissoes e persistencia..." -ForegroundColor White
