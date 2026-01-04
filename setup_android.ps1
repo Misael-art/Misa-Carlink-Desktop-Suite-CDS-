@@ -310,6 +310,8 @@ function Fix-CarlinkPrompt {
         "com.zjinnova.zlink.wifiadb",
         "com.syu.carlink",
         "com.lincofun.carlinkPlay",
+        "com.lincofun.lcarlink",
+        "com.syc.carlink",
         "com.autokit.autokit",
         "com.he.carlinkc",
         "com.carlinkit.carsdk"
@@ -340,13 +342,35 @@ function Fix-CarlinkPrompt {
     
     if (-not $found) {
         Write-Status "Pacote Carlink nao identificado automaticamente." "Warning"
-        Write-Host "   Pacotes conhecidos: ZLink, Carlink, AutoKit, CarlinkC" -ForegroundColor DarkGray
-        $manualPkg = Read-Host "   Digite o nome do pacote (ou Enter para pular)"
-        if ($manualPkg) {
-            & $AdbPath shell appops set $manualPkg PROJECT_MEDIA allow 2>$null
-            & $AdbPath shell appops set $manualPkg SYSTEM_ALERT_WINDOW allow 2>$null
-            Add-BatteryWhitelist -AdbPath $AdbPath -Package $manualPkg
-            Write-Status "Permissoes aplicadas para: $manualPkg" "Success"
+        
+        # Auto-Discovery Logic
+        Write-Host "   Tentando descobrir candidatos..." -ForegroundColor DarkGray
+        $candidates = $installedPackages -split "`r`n" | Where-Object { $_ -match "link|car|auto" } | ForEach-Object { $_ -replace "package:", "" }
+        
+        $targetPkg = ""
+        
+        if ($candidates) {
+            Write-Host "   Candidatos encontrados:"
+            for ($i = 0; $i -lt $candidates.Count; $i++) {
+                Write-Host "     $($i+1). $($candidates[$i])"
+            }
+            Write-Host "     0. Digitar manualmente"
+            
+            $sel = Read-Host "   Selecione o numero do seu app Carlink"
+            if ($sel -match "^\d+$" -and $sel -gt 0 -and $sel -le $candidates.Count) {
+                $targetPkg = $candidates[[int]$sel - 1]
+            }
+        }
+        
+        if ([string]::IsNullOrWhiteSpace($targetPkg)) {
+            $targetPkg = Read-Host "   Digite o nome do pacote (ou Enter para pular)"
+        }
+
+        if (-not [string]::IsNullOrWhiteSpace($targetPkg)) {
+            & $AdbPath shell appops set $targetPkg PROJECT_MEDIA allow 2>$null
+            & $AdbPath shell appops set $targetPkg SYSTEM_ALERT_WINDOW allow 2>$null
+            Add-BatteryWhitelist -AdbPath $AdbPath -Package $targetPkg
+            Write-Status "Permissoes aplicadas para: $targetPkg" "Success"
         }
     }
     else {
