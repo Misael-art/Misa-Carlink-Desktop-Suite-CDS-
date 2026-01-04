@@ -211,10 +211,44 @@ function Enable-FreeformMode {
 
 function Get-CurrentDpi {
     param([string]$AdbPath)
-    # No Android 15, a saída do 'wm density' pode variar. Usamos um regex mais flexível.
+    # Tenta ler a densidade. Se retornar vazio, é falta da permissão de segurança da Xiaomi.
     $density = & $AdbPath shell wm density 2>$null
     if ($density -match "(\d+)") { return $Matches[1] }
-    return "Não detectado (verifique as Opções de Desenvolvedor)"
+    return "BLOQUEADO (Ative 'Depuracao USB - Config. de Seguranca')"
+}
+
+function Download-EssentialApps {
+    param([string]$AdbPath)
+    Write-Section "DOWNLOAD E INSTALACAO DE APPS (RESILIENT EDITION)"
+    
+    $apps = @(
+        @{ Name = "Shizuku"; Url = "https://github.com/RikkaApps/Shizuku/releases/download/v13.6.0/shizuku-v13.6.0.r1086.2650830c-release.apk" },
+        @{ Name = "Taskbar"; Url = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" },
+        @{ Name = "SecondScreen"; Url = "https://github.com/farmerbb/SecondScreen/releases/download/v2.9.4/SecondScreen-2.9.4.apk" },
+        @{ Name = "MacroDroid"; Url = "https://f-droid.org/repo/com.arlosoft.macrodroid_56004.apk" }
+    )
+
+    if (-not (Test-Path $ApkFolder)) { New-Item -ItemType Directory -Path $ApkFolder | Out-Null }
+
+    foreach ($app in $apps) {
+        $dest = "$ApkFolder\$($app.Name).apk"
+        if (-not (Test-Path $dest)) {
+            Write-Host "   -> Baixando $($app.Name)..." -NoNewline
+            try {
+                # Usa Invoke-WebRequest com redirecionamento automático
+                Invoke-WebRequest -Uri $app.Url -OutFile $dest -UserAgent "Mozilla/5.0" -MaximumRedirection 5
+                Write-Host " [OK]" -ForegroundColor Green
+            }
+            catch {
+                Write-Host " [FALHA: Acesse o link manualmente]" -ForegroundColor Red
+                continue
+            }
+        }
+        Write-Host "   -> Instalando $($app.Name)..." -NoNewline
+        $res = & $AdbPath install -r -g "$dest" 2>&1
+        if ($res -match "Success") { Write-Host " [OK]" -ForegroundColor Green }
+        else { Write-Host " [JA INSTALADO]" -ForegroundColor DarkGray }
+    }
 }
 
 function Set-Dpi {
@@ -1172,62 +1206,7 @@ function Show-DiagnosticMode {
 # FUNCOES DE INSTALACAO E OTIMIZACAO (V5.0)
 # ------------------------------------------------------------------------------
 
-function Download-EssentialApps {
-    param([string]$AdbPath)
-    Write-Section "DOWNLOAD E INSTALACAO DE APPS (ULTIMATE 2026)"
-    
-    # Links atualizados e estáveis (GitHub Releases Latest)
-    $apps = @(
-        @{ 
-            Name = "Shizuku"; 
-            Url  = "https://github.com/RikkaApps/Shizuku/releases/download/v13.6.0/shizuku-v13.6.0.r1086.2650830c-release.apk" 
-        },
-        @{ 
-            Name = "Taskbar"; 
-            Url  = "https://github.com/farmerbb/Taskbar/releases/download/v6.1.1/Taskbar-v6.1.1-release.apk" 
-        },
-        @{ 
-            Name = "SecondScreen"; 
-            Url  = "https://github.com/farmerbb/SecondScreen/releases/download/v2.9.4/SecondScreen-2.9.4.apk" 
-        },
-        @{ 
-            Name = "MacroDroid"; 
-            Url  = "https://f-droid.org/repo/com.arlosoft.macrodroid_56004.apk" 
-        }
-    )
 
-    if (-not (Test-Path $ApkFolder)) { New-Item -ItemType Directory -Path $ApkFolder | Out-Null }
-
-    foreach ($app in $apps) {
-        $dest = "$ApkFolder\$($app.Name).apk"
-        Write-Status "Verificando $($app.Name)..." "Info"
-        
-        # Tenta download apenas se o arquivo nao existir localmente
-        if (-not (Test-Path $dest)) {
-            Write-Host "   -> Tentando download seguro..." -NoNewline
-            try {
-                $client = New-Object System.Net.WebClient
-                $client.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)")
-                $client.DownloadFile($app.Url, $dest)
-                Write-Host " [OK]" -ForegroundColor Green
-            }
-            catch {
-                Write-Host " [FALHA: Redirecionamento ou Bloqueio]" -ForegroundColor Red
-                continue
-            }
-        }
-        
-        Write-Host "   -> Instalando no Poco X6 Pro..." -NoNewline
-        # No Android 15, usamos -g para garantir permissoes e -r para manter dados
-        $installResult = & $AdbPath install -r -g "$dest" 2>&1
-        if ($installResult -match "Success") {
-            Write-Host " [INSTALADO]" -ForegroundColor Green
-        }
-        else {
-            Write-Host " [JA INSTALADO OU CONFLITO]" -ForegroundColor DarkGray
-        }
-    }
-}
 
 function Set-GeelyOptimize {
     param([string]$AdbPath)
