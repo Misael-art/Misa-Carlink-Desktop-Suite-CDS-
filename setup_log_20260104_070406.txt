@@ -1,0 +1,29 @@
+﻿2026-01-04 07:04:07 - === Script started v5.1 ===
+2026-01-04 07:04:07 - [Success] ADB: C:\Users\misae\AppData\Local\Temp\platform-tools\adb.exe
+2026-01-04 07:04:08 - [Info] Aguardando dispositivo Android...
+2026-01-04 07:04:08 - [Success] Dispositivo conectado e autorizado: T8IJQ8CEIN5X7LDY
+2026-01-04 07:04:08 - Device ID: T8IJQ8CEIN5X7LDY
+2026-01-04 07:04:10 - Device Info: Brand=poco, Model=2311DRK48G, Android=15, SDK=35
+2026-01-04 07:04:10 - [Success] Marca: POCO
+2026-01-04 07:04:10 - [Success] Modelo: 2311DRK48G
+2026-01-04 07:04:10 - [Success] Android: 15 (SDK 35)
+2026-01-04 07:04:18 - [Success] Taskbar: com.farmerbb.taskbar
+2026-01-04 07:04:18 - [Success] SecondScreen: com.farmerbb.secondscreen.free
+2026-01-04 07:04:21 - [Success] Modo Freeform ativado
+2026-01-04 07:04:21 - === CORRECAO: PROMPT DE ESPELHAMENTO CARLINK ===
+2026-01-04 07:04:22 - [Warning] Pacote Carlink nao identificado automaticamente.
+2026-01-04 07:04:35 - === OTIMIZACOES XIAOMI/POCO/REDMI (HyperOS/MIUI) ===
+2026-01-04 07:04:38 - Night mode set to 2
+2026-01-04 07:04:39 - === Configuration completed ===
+2026-01-04 07:04:54 - === DOWNLOAD E INSTALACAO DE APPS (ULTIMATE EDITION) ===
+2026-01-04 07:04:54 - [Info] Baixando Shizuku dos servidores oficiais...
+2026-01-04 07:04:55 - [Error] Falha no download de Shizuku. Verifique sua conexao.
+2026-01-04 07:04:55 - [Info] Baixando Taskbar dos servidores oficiais...
+2026-01-04 07:04:55 - [Error] Falha no download de Taskbar. Verifique sua conexao.
+2026-01-04 07:04:55 - [Info] Baixando SecondScreen dos servidores oficiais...
+2026-01-04 07:04:56 - [Error] Falha no download de SecondScreen. Verifique sua conexao.
+2026-01-04 07:04:56 - [Info] Baixando MacroDroid dos servidores oficiais...
+2026-01-04 07:04:57 - [Error] Falha no download de MacroDroid. Verifique sua conexao.
+2026-01-04 07:05:18 - === OTIMIZACAO FINAL: GEELY EX2 + CARLINK ===
+2026-01-04 07:05:19 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).
+2026-01-04 07:05:19 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).

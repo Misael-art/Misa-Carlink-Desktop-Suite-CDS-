@@ -84,18 +84,6 @@ powershell -ExecutionPolicy Bypass -File .\setup_android.ps1
 #### Step 2: The "Ultimate Connection" Flow
 1.  **Option `A` (Auto-Install):** Downloads & installs Shizuku, Taskbar, SecondScreen, MacroDroid.
 2.  **Option `G` (Geely Optimize):** Sets DPI 280, enables Overlays, and sets Driver App permissions.
-3.  **Manual Setup (One-Time):**
-    *   Open **Shizuku** -> Start via Wireless Debugging.
-    *   Open **SecondScreen** -> Create Profile "Geely EX2" (720p / DPI 280).
-    *   Import `Geely_Auto_Connect.xml` into **MacroDroid**.
-
-#### Step 3: Connect & Drive / Conectar e Dirigir
-Plug your phone into your car. The automation takes over!
-
----
-
-## 🧹 Clean Slate (Reset)
-
 Mess up? Want to sell the phone? Use **Option `X`** in the Advanced Menu to verify/restore factory rendering settings without losing your data.
 
 ---

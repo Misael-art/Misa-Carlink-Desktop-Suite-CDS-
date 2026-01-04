@@ -1,9 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <macrodroid>
-    <macro name="Geely Auto-Connect v5.0">
+    <macro name="Geely Start (Connect + Tile ON)">
+        <!-- Triggers: Bluetooth Conectado OU Tile clicado para Ligar -->
         <trigger type="bluetooth_state" state="connected" device="Geely EX2" />
+        <trigger type="quick_settings_tile" tile_number="1" state="toggle_on" />
         <condition type="power_connected" state="any" />
         
+        <!-- Ação 0: Sincronizar estado do Tile para 'Ativo' (Branco) -->
+        <action type="quick_settings_tile_state" tile_number="1" state="toggle_on" />
+
         <!-- Garantir que Shizuku esteja rodando -->
         <action type="shell_command" command="sh /sdcard/Android/data/moe.shizuku.privileged.api/files/start.sh" use_shizuku="true" />
         <action type="wait" seconds="2" />
@@ -16,33 +21,27 @@
         <!-- Iniciar Taskbar -->
         <action type="launch_app" package="com.farmerbb.taskbar" />
         
-        <action type="display_notification" title="Geely Desktop" text="Ambiente Carlink Ativado com Sucesso!" />
+        <action type="display_notification" title="Geely Desktop" text="Ambiente Carlink Ativado (BT/Tile)!" />
     </macro>
     
-    <macro name="Geely Disconnect (Cleanup)">
+    <macro name="Geely Stop (Disconnect/Reset + Tile OFF)">
+        <!-- Triggers: Bluetooth Desconectado OU Tile clicado para Desligar -->
         <trigger type="bluetooth_state" state="disconnected" device="Geely EX2" />
+        <trigger type="quick_settings_tile" tile_number="1" state="toggle_off" />
+        
+        <!-- Ação 0: Sincronizar estado do Tile para 'Inativo' (Cinza) -->
+        <action type="quick_settings_tile_state" tile_number="1" state="toggle_off" />
         
         <!-- Desativar SecondScreen -->
         <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
         
         <!-- Resetar densidade (DPI) -->
         <action type="shell_command" command="wm density reset" use_shizuku="true" />
+        <action type="shell_command" command="settings put global policy_control null" use_shizuku="true" />
         
         <!-- Fechar Taskbar -->
         <action type="force_stop" package="com.farmerbb.taskbar" />
-    </macro>
-
-    <macro name="MANUAL RESET (Normal Mode)">
-        <!-- Trigger: Botão na barra de notificações ou Widget -->
-        <trigger type="quick_settings_tile" tile_number="1" state="toggle_off" />
-        <trigger type="widget_pressed" />
         
-        <!-- Ações de Limpeza (Mesmas do Disconnect) -->
-        <action type="send_intent" action="com.farmerbb.secondscreen.TURN_OFF" package="com.farmerbb.secondscreen.free" />
-        <action type="shell_command" command="wm density reset" use_shizuku="true" />
-        <action type="shell_command" command="settings put global policy_control null" use_shizuku="true" />
-        <action type="force_stop" package="com.farmerbb.taskbar" />
-        
-        <action type="display_notification" title="Modo Normal" text="Configurações originais restauradas." />
+        <action type="display_notification" title="Modo Normal" text="Restaurado para padrão de fábrica." />
     </macro>
 </macrodroid>

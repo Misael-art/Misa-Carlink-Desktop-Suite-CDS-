@@ -1,0 +1,69 @@
+﻿2026-01-04 06:50:02 - === Script started v5.1 ===
+2026-01-04 06:50:02 - [Success] ADB: C:\Users\misae\AppData\Local\Temp\platform-tools\adb.exe
+2026-01-04 06:50:03 - [Info] Aguardando dispositivo Android...
+2026-01-04 06:50:03 - [Success] Dispositivo conectado e autorizado: T8IJQ8CEIN5X7LDY
+2026-01-04 06:50:03 - Device ID: T8IJQ8CEIN5X7LDY
+2026-01-04 06:50:04 - Device Info: Brand=poco, Model=2311DRK48G, Android=15, SDK=35
+2026-01-04 06:50:04 - [Success] Marca: POCO
+2026-01-04 06:50:04 - [Success] Modelo: 2311DRK48G
+2026-01-04 06:50:04 - [Success] Android: 15 (SDK 35)
+2026-01-04 06:50:29 - [Success] Taskbar: com.farmerbb.taskbar
+2026-01-04 06:50:29 - [Success] SecondScreen: com.farmerbb.secondscreen.free
+2026-01-04 06:50:32 - [Success] Modo Freeform ativado
+2026-01-04 06:50:32 - === CORRECAO: PROMPT DE ESPELHAMENTO CARLINK ===
+2026-01-04 06:50:33 - [Warning] Pacote Carlink nao identificado automaticamente.
+2026-01-04 06:50:53 - === OTIMIZACOES XIAOMI/POCO/REDMI (HyperOS/MIUI) ===
+2026-01-04 06:50:58 - Night mode set to 2
+2026-01-04 06:50:59 - === Configuration completed ===
+2026-01-04 06:51:25 - === MODO DE DIAGNOSTICO - Monitoramento em Tempo Real ===
+2026-01-04 06:51:28 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:32 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:36 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:40 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:44 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:48 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:51 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:54 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:51:58 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:01 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:04 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:08 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:11 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:14 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:18 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:21 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:25 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:28 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:32 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:35 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:38 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:42 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:45 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:48 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:51 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:54 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:52:58 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:01 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:04 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:07 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:10 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:14 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:17 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:21 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:24 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:28 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:31 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:35 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:38 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:42 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:48 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:52 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:56 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:53:59 - DIAG: Temp=0C, CPU=0%, RAM=0%, Bat=0%
+2026-01-04 06:54:01 - [Info] Monitoramento encerrado.
+2026-01-04 06:54:10 - === OTIMIZACAO FINAL: GEELY EX2 + CARLINK ===
+2026-01-04 06:54:12 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).
+2026-01-04 06:54:12 - [Success] Ambiente Geely preparado (DPI 280 + Permissoes).
+2026-01-04 07:00:42 - === OPERACAO CLEAN SLATE: RESTAURANDO PADROES ===
+2026-01-04 07:00:51 - [Info] Iniciando limpeza profunda...
+2026-01-04 07:01:28 - [Success] LIMPEZA CONCLUIDA COM SUCESSO!
